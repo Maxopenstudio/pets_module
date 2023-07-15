@@ -116,9 +116,9 @@ class ControllerModulePetForm extends Controller {
         if(!isset($this->request->post['age']) || !$this->request->post['age']){
             $this->error['errors']['age']=$this->language->get('error_age');
         }
-        if(!isset($this->request->post['gender']) || !$this->request->post['gender']){
-            $this->error['errors']['gender']=$this->language->get('error_gender');
-        }
+//        if(!isset($this->request->post['gender']) || !$this->request->post['gender']){
+//            $this->error['errors']['gender']=$this->language->get('error_gender');
+//        }
         return !$this->error;
     }
 

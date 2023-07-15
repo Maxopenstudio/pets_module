@@ -85,30 +85,37 @@ class ControllerModulePetForm extends Controller
     public function install()
     {
         $this->db->query("
-    CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet` (
-        `id` INT(11) NOT NULL AUTO_INCREMENT,
-        PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-");
+        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            PRIMARY KEY (`id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ");
 
         $this->db->query("
-    CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet_description` (
-        `pet_id` INT(11) NOT NULL,
-        `language_id` INT(11) NOT NULL,
-        `name` VARCHAR(255) NOT NULL,
-        PRIMARY KEY (`pet_id`,`language_id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-");
+        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet_description` (
+            `pet_id` INT(11) NOT NULL,
+            `language_id` INT(11) NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            PRIMARY KEY (`pet_id`,`language_id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ");
 
         $this->db->query("
-    CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet_breed` (
-        `id` INT(11) NOT NULL AUTO_INCREMENT,
-        `pet_id` INT(11) NOT NULL,
-        `language_id` INT(11) NOT NULL,
-        `name` VARCHAR(255) NOT NULL,
-        PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-");
+        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet_breed` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `pet_id` INT(11) NOT NULL,
+            PRIMARY KEY (`id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ");
+
+        $this->db->query("
+        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "pet_breed_description` (
+            `breed_id` INT(11) NOT NULL,
+            `language_id` INT(11) NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            PRIMARY KEY (`breed_id`,`language_id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ");
 
         $this->db->query("INSERT INTO `" . DB_PREFIX . "pet` (`id`) VALUES (1), (2), (3), (4);");
 
@@ -117,35 +124,39 @@ class ControllerModulePetForm extends Controller
     (1, 2, 'Turtle'), (2, 2, 'Cat'), (3, 2, 'Dog'), (4, 2, 'Fish')
 ;");
 
-        $this->db->query("INSERT INTO `" . DB_PREFIX . "pet_breed` (`pet_id`, `language_id`, `name`) VALUES 
-    (1, 2, 'Central Asian'), (1, 2, 'American Swamp'), (1, 2, 'Starred Land'),
-    (2, 2, 'Abyssinian'), (2, 2, 'Australian Mist'), (2, 2, 'Asian'),
-    (3, 2, 'Akita Inu'), (3, 2, 'Alabai'), (3, 2, 'Bernese Mountain Dog'),
-    (4, 2, 'Rooster'), (4, 2, 'Angelfish'), (4, 2, 'Ancistrus'),
+        $this->db->query("INSERT INTO `" . DB_PREFIX . "pet_breed` (`id`, `pet_id`) VALUES 
+    (1, 1), (2, 1), (3, 1), (4, 2), (5, 2), (6, 2), (7, 3), (8, 3), (9, 3), (10, 4), (11, 4), (12, 4);");
 
-    (1, 1, 'Среднеазиатская сухопутная'), (1, 1, 'Американская болотная'), (1, 1, 'Звездчатая сухопутная'),
-    (2, 1, 'Абиссинская'), (2, 1, 'Австралийский мист'), (2, 1, 'Азиатская'),
-    (3, 1, 'Акита-ину'), (3, 1, 'Алабай'), (3, 1, 'Бернский зенненхунд'),
-    (4, 1, 'Петушок'), (4, 1, 'Скалярия'), (4, 1, 'Анциструс')
+        $this->db->query("INSERT INTO `" . DB_PREFIX . "pet_breed_description` (`breed_id`, `language_id`, `name`) VALUES 
+    (1, 2, 'Central Asian'), (2, 2, 'American Swamp'), (3, 2, 'Starred Land'),
+    (4, 2, 'Abyssinian'), (5, 2, 'Australian Mist'), (6, 2, 'Asian'),
+    (7, 2, 'Akita Inu'), (8, 2, 'Alabai'), (9, 2, 'Bernese Mountain Dog'),
+    (10, 2, 'Rooster'), (11, 2, 'Angelfish'), (12, 2, 'Ancistrus'),
+
+    (1, 1, 'Среднеазиатская сухопутная'), (2, 1, 'Американская болотная'), (3, 1, 'Звездчатая сухопутная'),
+    (4, 1, 'Абиссинская'), (5, 1, 'Австралийский мист'), (6, 1, 'Азиатская'),
+    (7, 1, 'Акита-ину'), (8, 1, 'Алабай'), (9, 1, 'Бернский зенненхунд'),
+    (10, 1, 'Петушок'), (11, 1, 'Скалярия'), (12, 1, 'Анциструс')
 ;");
 
-
         $this->db->query("
-    CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "customer_pets` (
-        `id` INT(11) NOT NULL AUTO_INCREMENT,
-        `pet_id` INT(11) NOT NULL,
-        `breed_id` INT(11) NOT NULL,
-        `gender` INT(1) DEFAULT NULL,
-        `age` INT(11) NOT NULL,
-        `customer_id` INT(11) NOT NULL,
-        PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-");
-
+        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "customer_pets` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `pet_id` INT(11) NOT NULL,
+            `breed_id` INT(11) NOT NULL,
+            `gender` INT(1) DEFAULT NULL,
+            `age` INT(11) NOT NULL,
+            `customer_id` INT(11) NOT NULL,
+            PRIMARY KEY (`id`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+    ");
     }
-    public function uninstall(){
+
+    public function uninstall()
+    {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "pet`");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "pet_description`");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "pet_breed`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "pet_breed_description`");
     }
 }
