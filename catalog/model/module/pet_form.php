@@ -13,7 +13,7 @@ class ModelModulePetForm extends Model
     public function getBreedByPet($pet_id)
     {
         $language_id = $this->config->get('config_language_id');
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "pet_breed WHERE language_id='" . (int)$language_id . "' AND pet_id='" . (int)$pet_id . "'");
+        $query = $this->db->query("SELECT pb.id, pbd.name FROM " . DB_PREFIX . "pet_breed pb JOIN " . DB_PREFIX . "pet_breed_description pbd ON pb.id=pbd.breed_id WHERE pbd.language_id='" . (int)$language_id . "' AND pb.pet_id='" . (int)$pet_id . "'");
         return $query->rows;
     }
 
