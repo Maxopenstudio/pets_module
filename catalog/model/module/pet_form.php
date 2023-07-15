@@ -40,7 +40,7 @@ class ModelModulePetForm extends Model
         $language_id = $this->config->get('config_language_id');
         $result = array();
         $result['pet_name'] = $this->db->query("SELECT name FROM `".DB_PREFIX."pet_description` WHERE pet_id=".(int)$data['pet_id']." AND language_id=".(int)$language_id."")->row['name'];
-        $result['breed_name'] = $this->db->query("SELECT name FROM `".DB_PREFIX."pet_breed` WHERE pet_id=".(int)$data['pet_id']." AND language_id=".(int)$language_id."")->row['name'];
+        $result['breed_name'] = $this->db->query("SELECT name FROM `".DB_PREFIX."pet_breed` WHERE id=".(int)$data['breed_id']." AND language_id=".(int)$language_id."")->row['name'];
 
         return $result;
     }
